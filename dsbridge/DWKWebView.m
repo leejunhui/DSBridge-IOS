@@ -54,7 +54,7 @@
     // add internal Javascript Object
     InternalApis *  interalApis= [[InternalApis alloc] init];
     interalApis.webview=self;
-    [self addJavascriptObject:interalApis namespace:@"_dsb"];
+    [self addJavascriptObject:interalApis nameSpace:@"_dsb"];
     return self;
 }
 
@@ -254,8 +254,8 @@ initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completi
         NSLog(@"Js bridge  called, but can't find a corresponded JavascriptObject , please check your code!");
     }else{
         method=nameStr[1];
-        NSString *methodOne = [JSBUtil methodByNameArg:1 selName:method class:[JavascriptInterfaceObject class]];
-        NSString *methodTwo = [JSBUtil methodByNameArg:2 selName:method class:[JavascriptInterfaceObject class]];
+        NSString *methodOne = [JSBUtil methodByNameArg:1 selName:method className:[JavascriptInterfaceObject class]];
+        NSString *methodTwo = [JSBUtil methodByNameArg:2 selName:method className:[JavascriptInterfaceObject class]];
         SEL sel=NSSelectorFromString(methodOne);
         SEL selasyn=NSSelectorFromString(methodTwo);
         NSDictionary * args=[JSBUtil jsonStringToObject:argStr];
@@ -378,7 +378,7 @@ initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completi
            completionHandler:nil];
 }
 
-- (void) addJavascriptObject:(id)object namespace:(NSString *)namespace{
+- (void) addJavascriptObject:(id)object nameSpace:(NSString *)namespace{
     if(namespace==nil){
         namespace=@"";
     }
@@ -430,8 +430,8 @@ initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completi
     NSString * type= [args[@"type"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     id JavascriptInterfaceObject= [javaScriptNamespaceInterfaces objectForKey:nameStr[0]];
     if(JavascriptInterfaceObject){
-        bool syn=[JSBUtil methodByNameArg:1 selName:nameStr[1] class:[JavascriptInterfaceObject class]]!=nil;
-        bool asyn=[JSBUtil methodByNameArg:2 selName:nameStr[1] class:[JavascriptInterfaceObject class]]!=nil;
+        bool syn=[JSBUtil methodByNameArg:1 selName:nameStr[1] className:[JavascriptInterfaceObject class]]!=nil;
+        bool asyn=[JSBUtil methodByNameArg:2 selName:nameStr[1] className:[JavascriptInterfaceObject class]]!=nil;
         if(([@"all" isEqualToString:type]&&(syn||asyn))
            ||([@"asyn" isEqualToString:type]&&asyn)
            ||([@"syn" isEqualToString:type]&&syn)

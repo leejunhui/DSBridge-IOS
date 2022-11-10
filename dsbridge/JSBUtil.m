@@ -50,7 +50,7 @@
 }
 
 //return method name for xxx: or xxx:handle:
-+(NSString *)methodByNameArg:(NSInteger)argNum selName:(NSString *)selName class:(Class)class
++(NSString *)methodByNameArg:(NSInteger)argNum selName:(NSString *)selName className:(Class)class
 {
     NSString *result = nil;
     if(class){
